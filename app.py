@@ -1,9 +1,9 @@
 from concurrent.futures import process
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
 	import requests
 	import json
@@ -41,12 +41,18 @@ def index():
 		tabprice[1] = price2r
 		tabplat[1] = price2plat
 	
-	print(tabprice)
-	print(tabplat)
-	return render_template('index.html',plat1 = tabplat[0],plat2 = tabplat[1],plat3 = tabplat[2],price1=tabprice[0],price2=tabprice[1],price3=tabprice[2])
+	game = request.form.get('search', '')
+	print(game)
+	return render_template('index.html',game = game,plat1 = tabplat[0],plat2 = tabplat[1],plat3 = tabplat[2],price1=tabprice[0],price2=tabprice[1],price3=tabprice[2])
 
+
+@app.route('/account', methods=['GET', 'POST'])
+def account_page():
+	if request.method == 'GET':
+		return render_template('account.html')
 
 def jprint(obj):
 	import json
 	text = json.dumps(obj, sort_keys=True, indent=4)
 	return(text)
+
