@@ -5,8 +5,8 @@
 ```bash
 $ sudo apt update
 $ sudo apt -y upgrade
-$ sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
 $ sudo apt install openssh-server
+$ sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
 ```
 
 ## Configuration d'un pare-feu de base
@@ -14,7 +14,7 @@ $ sudo apt install openssh-server
 ```bash
 $ sudo ufw enbale
 $ sudo ufw allow OpenSSH
-$ ufw app list
+$ sudo ufw app list
 ```
 
 <ins> Output : </ins>
@@ -34,8 +34,8 @@ $ sudo apt install nginx
 ## Ajustement du pare-feu
 
 ```bash
-$ sudo ufw app list
 $ sudo ufw allow 'Nginx HTTP'
+$ sudo ufw app list
 ```
 
 <ins> Output : </ins>
@@ -62,4 +62,21 @@ Nginx HTTP                 ALLOW       Anywhere
 OpenSSH (v6)               ALLOW       Anywhere (v6)             
 Nginx HTTP (v6)            ALLOW       Anywhere (v6)
 ```
+
+## Installation de Mariadb
+
+```
+$ sudo apt install mariadb-server
+$ sudo systemctl enable mariadb
+$ sudo ss -alpnet
+```
+
+/!\ Pour la manipulation suivante, vous ne devez pas utiliser vos adresses publiques pour relier la database avec le serveur web /!\
+
+```
+$ sudo ufw allow from 164.132.230.224 to any port 3306
+$ sudo ufw allow 3306/tcp
+```
+
+
 
