@@ -7,22 +7,25 @@ app = Flask(__name__)
 def index():
 	import requests
 	import json
-	game = "cyberpunk"
-	url = "https://best-game-price-search.p.rapidapi.com/allshops/"+game
+	game = "minecraft"
+	if request.method == 'POST':
+		game = request.form.get('search', '')
+		game = game.replace(" ","-")
+
+	print(game)
+	url = "https://game-prices.p.rapidapi.com/game/"+game
+	querystring = {"region":"fr","type":"game"}
 	headers = {
-		'x-rapidapi-host': "best-game-price-search.p.rapidapi.com",
+		'x-rapidapi-host': "game-prices.p.rapidapi.com",
 		'x-rapidapi-key': "577c741b61msh1de80c6b8100fdfp140b3cjsnd8d751d72ad8"
 	}
-	response= requests.request("GET", url, headers=headers)
-	price1r = jprint(response.json()[1]['Steam'][0]["price"])
-	price2r = jprint(response.json()[2]['Epic'][0]["price"])
-	price3r = jprint(response.json()[4]['Instant Gaming'][0]["price"])
-	price1plat = "Steam"
-	price2plat = "Epic"
-	price3plat = "Instant Gaming"
-	price1r = float(price1r[7:-1])
-	price2r = float(price2r[7:-1])
-	price3r = float(price3r[7:-1])
+	response= requests.request("GET", url, headers=headers, params=querystring)
+	price1r = jprint(response.json()['stores'][0]["price"])
+	price2r = jprint(response.json()['stores'][1]["price"])
+	price3r = jprint(response.json()['stores'][2]["price"])
+	price1plat = jprint(response.json()['stores'][0]["seller"])
+	price2plat = jprint(response.json()['stores'][1]["seller"])
+	price3plat = jprint(response.json()['stores'][2]["seller"])
 	tabprice = [price1r,price2r,price3r]
 	tabplat = [price1plat,price2plat,price3plat]
 	if price1r > price2r:
@@ -41,8 +44,6 @@ def index():
 		tabprice[1] = price2r
 		tabplat[1] = price2plat
 	
-	game = request.form.get('search', '')
-	print(game)
 	return render_template('index.html',game = game,plat1 = tabplat[0],plat2 = tabplat[1],plat3 = tabplat[2],price1=tabprice[0],price2=tabprice[1],price3=tabprice[2])
 
 
