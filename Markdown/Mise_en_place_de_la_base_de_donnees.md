@@ -6,7 +6,6 @@
 $ sudo apt update
 $ sudo apt -y upgrade
 $ sudo apt install openssh-server
-$ sudo apt install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools
 ```
 
 ## Configuration d'un pare-feu de base
