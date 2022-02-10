@@ -7,9 +7,6 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	import requests
-	import json
-	import urllib
-	import PIL
 	game = "minecraft"
 	if request.method == 'POST':
 		game = request.form.get('search', '')
@@ -76,11 +73,32 @@ def index():
 
 @app.route('/account', methods=['GET', 'POST'])
 def account_page():
-	if request.method == 'GET':
-		return render_template('account.html')
-
+	import mysql.connector
+	test = "r"
+	if request.method == 'POST':
+		usrname = request.form['username']
+		passwd = request.form['passwd']
+		usr_info= (usrname, passwd)
+		db = mysql.connector.connect(
+		host="164.132.230.213",
+		database="comparator",
+		user="supadmin",
+		password="supadmin00SQL"	
+		)
+		cursor = db.cursor()
+		cursor.execute("SELECT * from accounts")
+		test = cursor.fetchall()
+		insert_SQL = """INSERT INTO accounts (id, users, password) VALUES (13,%s,%s)"""
+		cursor.execute(insert_SQL, usr_info)
+		db.commit()
+		cursor.close()
+		db.close()
+	
+	return render_template('account.html', test=test)
 def jprint(obj):
 	import json
 	text = json.dumps(obj, sort_keys=True, indent=4)
 	return(text)
 
+if __name__ == "__main__":
+    app.run(host='164.132.230.224')
