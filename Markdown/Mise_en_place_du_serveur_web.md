@@ -27,7 +27,6 @@ Available applications:
 
 ```bash
 $ pip install flask
-$ pip install gunicorn
 $ nano myproject.py
 ```
 
@@ -69,4 +68,49 @@ from myproject import app
 
 if __name__ == "__main__":
     app.run()
+```
+
+## Installation de gunicorn
+
+```bash
+$ sudo apt install gunicorn
+```
+
+La commande nous permettant de spécifier l'interface et le port auxquels se connecter afin que l'application soit démarrée sur une interface accessible aux publics.
+
+```bash
+gunicorn --bind 164.132.230.224:5000 wsgi:app
+```
+
+Output :
+```
+[2022-01-18 12:26:50 +0100] [1447] [INFO] Starting gunicorn 20.1.0
+[2022-01-18 12:26:50 +0100] [1447] [INFO] Listening at: http://10.5.1.4:5000 (1447)
+[2022-01-18 12:26:50 +0100] [1447] [INFO] Using worker: sync
+[2022-01-18 12:26:50 +0100] [1449] [INFO] Booting worker with pid: 1449
+```
+
+> A partir de cette commande, on peut visiter le site avec son adresse ip du serveur suivi de :5000
+
+On peut en faire un service pour que ce soit plus simple à activer et à utiliser par la suite.
+
+```bash
+sudo nano /etc/systemd/system/myproject.service
+```
+
+myproject.service
+```
+[Unit]
+Description=Gunicorn instance to serve myproject
+After=network.targ
+
+[Service]
+User=brante
+Group=www-data
+WorkingDirectory=/home/brante
+Environment="PATH=/home/brante/bin"
+ExecStart=/home/brante/bin/gunicorn --workers 3 --bind unix:myproject.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
 ```
