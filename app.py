@@ -74,11 +74,16 @@ def index():
 @app.route('/account', methods=['GET', 'POST'])
 def account_page():
 	import mysql.connector
-	test = "r"
+	answer = ""
+	create_account = "off"
+	
 	if request.method == 'POST':
 		usrname = request.form['username']
 		passwd = request.form['passwd']
-		usr_info= (usrname, passwd)
+		try:
+			create_account = request.form['create']
+		except:
+			pass
 		db = mysql.connector.connect(
 		host="164.132.230.213",
 		database="comparator",
@@ -87,14 +92,25 @@ def account_page():
 		)
 		cursor = db.cursor()
 		cursor.execute("SELECT * from accounts")
-		test = cursor.fetchall()
-		insert_SQL = """INSERT INTO accounts (id, users, password) VALUES (13,%s,%s)"""
-		cursor.execute(insert_SQL, usr_info)
+		cursor.fetchall()
+		count_row = cursor.rowcount
+		usr_info= (count_row,usrname, passwd)
+		usr_usr= ("users",usrname)
+		if (create_account == "on"):
+			verif_SQL = """SELECT %s FROM accounts WHERE (users = %s)"""
+			cursor.execute(verif_SQL,usr_usr)
+			cursor.fetchall()
+			if (cursor.rowcount >0):
+				answer = "That username is taken. Try another."
+			else:
+				insert_SQL = """INSERT INTO accounts (id, users, password) VALUES (%s,%s,%s)"""
+				cursor.execute(insert_SQL, usr_info)
+				answer = "Your account has been created successfully !"
 		db.commit()
 		cursor.close()
 		db.close()
 	
-	return render_template('account.html', test=test)
+	return render_template('account.html', answer=answer)
 def jprint(obj):
 	import json
 	text = json.dumps(obj, sort_keys=True, indent=4)
