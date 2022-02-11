@@ -102,12 +102,12 @@ MariaDB [(none)]> use comparator;
 MariaDB [comparator]> CREATE TABLE accounts(id int PRIMARY KEY NOT NULL, users VARCHAR(100) NOT NULL, password VARCHAR(100) NOT NULL);
 
 MariaDB [comparator]> CREATE TABLE gaming(id int NOT NULL, games VARCHAR(100) NOT NULL, sources VARCHAR(100) NOT NULL, price FLOAT NOT NULL, plateforms VARCHAR(15) NOT NULL);
-
-MariaDB [comparator]> CREATE TABLE additional(id int NOT NULL, games VARCHAR(100) NOT NULL, price FLOAT NOT NULL);
 ```
 
 Si pour X raison, vous n'avez pas défini le NOT NULL dans une des commandes permettant de définir si le champs doit être obligatoirement rempli ou non.
 Vous pouvez utiliser cette commande : `ALTER TABLE nom_table MODIFY nom_colonne type NOT NULL/NULL;`
+
+Utilisez la commande `ALTER TABLE nom_table ADD UNIQUE (nom_colonne);` pour que votre colonne ne possède seulement des valeurs uniques.
 
 
 
