@@ -155,7 +155,7 @@ def account_page():
 @app.route('/favorites', methods=['GET'])
 def favorites():
 	fav_games = []
-	
+	list_fav_games =[]
 	try:
 		name = session['name']
 	except:
@@ -175,14 +175,20 @@ def favorites():
 		fav_SQL = """SELECT * FROM gaming WHERE (id = %s);"""
 		cursor.execute(fav_SQL,gam_usr)
 		info_games = cursor.fetchall()
+		print(info_games)
+		if (cursor.rowcount == 0):
+			answer = "No games in favorites"
+		else:
+			for k in range(0,cursor.rowcount):
+				fav_games.append(info_games[k][1])
+				fav_games.append(info_games[k][2])
+				fav_games.append(info_games[k][3])
+				fav_games.append(info_games[k][4])
+				list_fav_games.append(fav_games)
+				fav_games = []
 		db.commit()
 		cursor.close()
 		db.close()
-		fav_games.append(info_games[0][1])
-		fav_games.append(info_games[0][2])
-		fav_games.append(info_games[0][3])
-		fav_games.append(info_games[0][4])
-		list_fav_games = [fav_games]
 	return render_template('favorites.html',len=len(list_fav_games),infoG = list_fav_games, answer=answer, name=name)
 
 
