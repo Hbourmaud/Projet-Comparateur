@@ -1,13 +1,16 @@
 from concurrent.futures import process
 from inspect import _void
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect
 
 app = Flask(__name__)
-
-name = "username"
+app.secret_key = "any random string"
 
 @app.route('/', methods=['GET','POST'])
 def index():
+	try:
+		name = session['name']
+	except:
+		name = "Not login"
 	return render_template('index.html', name=name)
 
 @app.route('/search', methods=['POST'])
@@ -112,6 +115,7 @@ def account_page():
 				insert_SQL = """INSERT INTO accounts (id, users, password) VALUES (%s,%s,%s)"""
 				cursor.execute(insert_SQL, usr_info)
 				answer = "Your account has been created successfully !"
+				session['name'] = usrname
 		else:
 			verifacc_SQL = """SELECT * FROM accounts WHERE (users = %s) AND password = %s"""
 			cursor.execute(verifacc_SQL, usr_pswd)
@@ -122,12 +126,18 @@ def account_page():
 			else:
 				print("row",row[0][0])
 				answer = "Successfully login!"
-
+				session['name'] = usrname
 		db.commit()
 		cursor.close()
 		db.close()
 	
 	return render_template('account.html', answer=answer)
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+	session.pop('name',"Not login")
+	return redirect('/')
+
 def jprint(obj):
 	import json
 	text = json.dumps(obj, sort_keys=True, indent=4)
