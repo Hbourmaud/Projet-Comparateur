@@ -96,6 +96,7 @@ def account_page():
 		count_row = cursor.rowcount
 		usr_info= (count_row,usrname, passwd)
 		usr_usr= ("users",usrname)
+		usr_pswd = (usrname,passwd)
 		if (create_account == "on"):
 			verif_SQL = """SELECT %s FROM accounts WHERE (users = %s)"""
 			cursor.execute(verif_SQL,usr_usr)
@@ -106,6 +107,17 @@ def account_page():
 				insert_SQL = """INSERT INTO accounts (id, users, password) VALUES (%s,%s,%s)"""
 				cursor.execute(insert_SQL, usr_info)
 				answer = "Your account has been created successfully !"
+		else:
+			verifacc_SQL = """SELECT * FROM accounts WHERE (users = %s) AND password = %s"""
+			cursor.execute(verifacc_SQL, usr_pswd)
+			print(cursor.rowcount,usrname,passwd)
+			row = cursor.fetchall()
+			if (cursor.rowcount != 1):
+				answer = "Username or Account incorrect. Please Retry!"
+			else:
+				print("row",row[0][0])
+				answer = "Successfully login!"
+
 		db.commit()
 		cursor.close()
 		db.close()
