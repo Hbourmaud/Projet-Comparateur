@@ -1,5 +1,6 @@
 from concurrent.futures import process
 from inspect import _void
+import mysql.connector
 from flask import Flask, render_template, request, session, redirect
 
 app = Flask(__name__)
@@ -84,17 +85,12 @@ def search_page():
 
 @app.route('/account', methods=['GET', 'POST'])
 def account_page():
-	import mysql.connector
 	try:
 		name = session['name']
 		id_usr = session['id_usr']
 	except:
 		name = "Not login"
-	if (name != "Not login"):
-		isLogin = True
-	else:
-		isLogin = False
-	print("login:",isLogin)
+		id_usr = -1
 	answer = ""
 	create_account = "off"
 	if request.method == 'POST':
@@ -128,6 +124,7 @@ def account_page():
 				cursor.execute(insert_SQL, usr_info)
 				#answer = "Your account has been created successfully !"
 				session['name'] = usrname
+				session['id_usr'] = usr_info[0]
 				db.commit()
 				cursor.close()
 				db.close()
@@ -154,14 +151,24 @@ def account_page():
 	
 	return render_template('account.html', answer=answer, name = name)
 
+
+@app.route('/favorites', methods=['GET'])
+def favorites():
+	try:
+		name = session['name']
+	except:
+		name = "Not login"
+	if (name=="Not login"):
+		answer = "Please login to access the favorites features "
+	else:
+		answer = "Your favorites games :"
+	return render_template('favorites.html', answer=answer, name=name)
+
+
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
 	session.pop('name',"Not login")
-	return redirect('/')
-
-@app.route('/delete', methods=['GET'])
-def delete():
-	session.pop('name',"Not login")
+	session.pop('id_usr',-1)
 	return redirect('/')
 
 def jprint(obj):
