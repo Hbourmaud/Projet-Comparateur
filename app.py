@@ -1,5 +1,6 @@
 from concurrent.futures import process
 from inspect import _void
+from multiprocessing.dummy import Array
 import mysql.connector
 from flask import Flask, render_template, request, session, redirect
 
@@ -111,10 +112,10 @@ def account_page():
 		cursor.fetchall()
 		count_row = cursor.rowcount
 		usr_info= (count_row,usrname, passwd)
-		usr_usr= ("users",usrname)
+		usr_usr= (usrname,)
 		usr_pswd = (usrname,passwd)
 		if (create_account == "on"):
-			verif_SQL = """SELECT %s FROM accounts WHERE (users = %s)"""
+			verif_SQL = """SELECT users FROM accounts WHERE (users = %s)"""
 			cursor.execute(verif_SQL,usr_usr)
 			cursor.fetchall()
 			if (cursor.rowcount >0):
@@ -132,7 +133,6 @@ def account_page():
 		else:
 			verifacc_SQL = """SELECT * FROM accounts WHERE (users = %s) AND password = %s"""
 			cursor.execute(verifacc_SQL, usr_pswd)
-			print(cursor.rowcount,usrname,passwd)
 			row = cursor.fetchall()
 			if (cursor.rowcount != 1):
 				answer = "Username or Account incorrect. Please Retry!"
@@ -154,6 +154,8 @@ def account_page():
 
 @app.route('/favorites', methods=['GET'])
 def favorites():
+	fav_games = []
+	
 	try:
 		name = session['name']
 	except:
@@ -162,7 +164,26 @@ def favorites():
 		answer = "Please login to access the favorites features "
 	else:
 		answer = "Your favorites games :"
-	return render_template('favorites.html', answer=answer, name=name)
+		db = mysql.connector.connect(
+		host="164.132.230.213",
+		database="comparator",
+		user="supadmin",
+		password="supadmin00SQL"	
+		)
+		cursor = db.cursor()
+		gam_usr = (session['id_usr'],)
+		fav_SQL = """SELECT * FROM gaming WHERE (id = %s);"""
+		cursor.execute(fav_SQL,gam_usr)
+		info_games = cursor.fetchall()
+		db.commit()
+		cursor.close()
+		db.close()
+		fav_games.append(info_games[0][1])
+		fav_games.append(info_games[0][2])
+		fav_games.append(info_games[0][3])
+		fav_games.append(info_games[0][4])
+		list_fav_games = [fav_games]
+	return render_template('favorites.html',len=len(list_fav_games),infoG = list_fav_games, answer=answer, name=name)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

@@ -2,4 +2,11 @@
 
 {% block content %}
    <h1>{{answer}}</h1>
+   {%for i in range(0, len)%}
+   <h1>{{infoG[i][0]}}</h1>
+   <img src="{{ infoG[i][1]}}">
+   <h1>{{infoG[i][2]}}€</h1>
+   <a href="{{ infoG[i][3]}}" target="_blank">Go to website seller</a>
+{%endfor%}
+
 {% endblock %}
