@@ -2,9 +2,8 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to a comparator {% endblock %}</h1>
-    {{name}}
     <form method="post" action="/search">
-        <input type="text" name="search" required autocomplete="off">
+        <input type="text" name="search" placeholder="Search a game ..." required autocomplete="off">
         <input type="submit" value="Research">
     </form>
 {% endblock %}

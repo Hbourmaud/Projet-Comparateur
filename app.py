@@ -16,12 +16,14 @@ def index():
 @app.route('/search', methods=['POST'])
 def search_page():
 	import requests
-	game = "minecraft"
+	try:
+		name = session['name']
+	except:
+		name = "Not login"
 	if request.method == 'POST':
 		game = request.form.get('search', '')
 		game = game.replace(" ","-")
 
-	print(game)
 	url = "https://game-prices.p.rapidapi.com/game/"+game
 	urlimg ="https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI"
 	querystringimg = {"q":game,"pageNumber":"1","pageSize":"1","autoCorrect":"true","safeSearch":"true"}
@@ -77,12 +79,22 @@ def search_page():
 		tabplat[1] = price2plat
 		taburl[1] = url2
 	
-	return render_template('search.html',imggame = imggame,game = game,plat1 = tabplat[0],plat2 = tabplat[1],plat3 = tabplat[2],price1=tabprice[0],price2=tabprice[1],price3=tabprice[2],url1= taburl[0],url2= taburl[1],url3= taburl[2])
+	return render_template('search.html',name = name,imggame = imggame,game = game,plat1 = tabplat[0],plat2 = tabplat[1],plat3 = tabplat[2],price1=tabprice[0],price2=tabprice[1],price3=tabprice[2],url1= taburl[0],url2= taburl[1],url3= taburl[2])
 
 
 @app.route('/account', methods=['GET', 'POST'])
 def account_page():
 	import mysql.connector
+	try:
+		name = session['name']
+		id_usr = session['id_usr']
+	except:
+		name = "Not login"
+	if (name != "Not login"):
+		isLogin = True
+	else:
+		isLogin = False
+	print("login:",isLogin)
 	answer = ""
 	create_account = "off"
 	if request.method == 'POST':
@@ -114,8 +126,12 @@ def account_page():
 			else:
 				insert_SQL = """INSERT INTO accounts (id, users, password) VALUES (%s,%s,%s)"""
 				cursor.execute(insert_SQL, usr_info)
-				answer = "Your account has been created successfully !"
+				#answer = "Your account has been created successfully !"
 				session['name'] = usrname
+				db.commit()
+				cursor.close()
+				db.close()
+				return redirect('/')
 		else:
 			verifacc_SQL = """SELECT * FROM accounts WHERE (users = %s) AND password = %s"""
 			cursor.execute(verifacc_SQL, usr_pswd)
@@ -125,16 +141,26 @@ def account_page():
 				answer = "Username or Account incorrect. Please Retry!"
 			else:
 				print("row",row[0][0])
-				answer = "Successfully login!"
+				#answer = "Successfully login!"
 				session['name'] = usrname
+				session['id_usr'] = row[0][0]
+				db.commit()
+				cursor.close()
+				db.close()
+				return redirect('/')
 		db.commit()
 		cursor.close()
 		db.close()
 	
-	return render_template('account.html', answer=answer)
+	return render_template('account.html', answer=answer, name = name)
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
+	session.pop('name',"Not login")
+	return redirect('/')
+
+@app.route('/delete', methods=['GET'])
+def delete():
 	session.pop('name',"Not login")
 	return redirect('/')
 
