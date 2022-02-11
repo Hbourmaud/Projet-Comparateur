@@ -3,8 +3,8 @@
 {% block content %}
     <h1>{% block title %} Your Account {% endblock %}</h1>
     <form method="post">
-        <input type="text" name="username" required>
-        <input type="text" name="passwd" required>
+        <input type="text" name="username" required autocomplete="off">
+        <input type="text" name="passwd" required autocomplete="off">
         Create Account ? <input type="checkbox" name="create" >
         <input type="submit" value="account">
     </form>

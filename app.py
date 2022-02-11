@@ -4,8 +4,14 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+name = "username"
+
+@app.route('/', methods=['GET','POST'])
 def index():
+	return render_template('index.html', name=name)
+
+@app.route('/search', methods=['POST'])
+def search_page():
 	import requests
 	game = "minecraft"
 	if request.method == 'POST':
@@ -68,7 +74,7 @@ def index():
 		tabplat[1] = price2plat
 		taburl[1] = url2
 	
-	return render_template('index.html',imggame = imggame,game = game,plat1 = tabplat[0],plat2 = tabplat[1],plat3 = tabplat[2],price1=tabprice[0],price2=tabprice[1],price3=tabprice[2],url1= taburl[0],url2= taburl[1],url3= taburl[2])
+	return render_template('search.html',imggame = imggame,game = game,plat1 = tabplat[0],plat2 = tabplat[1],plat3 = tabplat[2],price1=tabprice[0],price2=tabprice[1],price3=tabprice[2],url1= taburl[0],url2= taburl[1],url3= taburl[2])
 
 
 @app.route('/account', methods=['GET', 'POST'])
@@ -76,7 +82,6 @@ def account_page():
 	import mysql.connector
 	answer = ""
 	create_account = "off"
-	
 	if request.method == 'POST':
 		usrname = request.form['username']
 		passwd = request.form['passwd']
