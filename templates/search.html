@@ -2,12 +2,18 @@
 
 {% block content %}
     <h1>{% block title %} Welcome to a comparator {% endblock %}</h1>
-    <img src="{{ imggame }}">
+    <form method="POST" action="/search">
+        <input type="hidden" name="like_btn" value="like">
+        <input type="submit" value="{{ heart }}">
+    </form>
     <h2>Results for: {{ game }}</h2>
+    <h1>{{ answer }}</h1>
+    <img src="{{ imggame }}">
     <h2>{{ plat1 }}: {{ price1 }}€</h2>
     <a href="{{ url1 }}">GO</a>
     <h2>{{ plat2 }}: {{ price2 }}€</h2>
     <a href="{{ url2 }}">GO</a>
     <h2>{{ plat3 }}: {{ price3 }}€</h2>
     <a href="{{ url3 }}">GO</a>
+    
 {% endblock %}
