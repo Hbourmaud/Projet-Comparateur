@@ -1,4 +1,4 @@
-# Mise en place du serveur web
+# Mise en place du serveur de base de donnée
 
 ## Installation des composants à partir des référentiels Ubuntu
 
