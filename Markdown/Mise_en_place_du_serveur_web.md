@@ -23,51 +23,27 @@ Available applications:
   OpenSSH
 ```
 
-## Installation de Flask
+## Installation de Flask et du code web
 
 ```bash
 $ pip install flask
-$ nano myproject.py
+$ sudo python3 -m pip install mysql-connector-python
+$ git clone https://gitlab.com/Hbourmaud/projetcomparateur
 ```
-
-myproject.py
-```py
-from flask import Flask
-app = Flask(__name__)
-
-@app.route("/")
-def hello():
-    return "<h1 style='color:blue'>Hello There!</h1>"
-
-if __name__ == "__main__":
-    app.run(host='164.132.230.224')
-```
+Cela permet d'obtenir le code utilisé pour les pages web ainsi que le backend du site. ( Veillez à changer les clés API disponible sur rapidapi.com)
 
 ```bash
 $ sudo ufw allow 5000
-$ python3 myproject.py
+$ python3 app.py
 ```
-
 Output :
 ```
-* Serving Flask app 'myproject' (lazy loading)
+* Serving Flask app 'app' (lazy loading)
 * Environment: production
 WARNING: This is a development server. Do not use it in a production deployment.
 Use a production WSGI server instead.
 * Debug mode: off
-* Running on http://10.5.1.4:5000/ (Press CTRL+C to quit)
-```
-
-```bash
-$ nano wsgi.py
-```
-
-wsgi.py
-```py
-from myproject import app
-
-if __name__ == "__main__":
-    app.run()
+* Running on http://[YOUR IP]:5000/ (Press CTRL+C to quit)
 ```
 
 ## Installation de gunicorn
