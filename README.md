@@ -5,7 +5,11 @@
 
 
 # Schéma réseau
+Schéma réseau mis en place actuellement:
+![INFRA 1](./Markdown/infra1.PNG)
 
+Schéma réseau mis en place sans restriction de budget:
+![INFRA 2](./Markdown/infra2.PNG)
 
 # Utilisation de la solution
 
