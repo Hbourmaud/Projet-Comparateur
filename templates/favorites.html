@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-   <h1>{{answer}}</h1>
+   <h1 class="answer_fav">{{answer}}</h1>
+   <div class="box">
    {%for i in range(0, len)%}
-   <h1>{{infoG[i][0]}}</h1>
-   <img src="{{ infoG[i][1]}}">
-   <h1>Last Price View: {{infoG[i][2]}}€</h1>
-   <a href="{{ infoG[i][3]}}" target="_blank">Best website seller</a>
-   <form method="POST" action="/favorites">
-      <input type="hidden" name="game_del" value="{{infoG[i][0]}}">
-      <input type="submit" value="Remove from favorites list">
-   </form>
+   <div class="card">
+      <img class="image_fav" src="{{ infoG[i][1]}}">
+      <h1 class="title_fav">{{infoG[i][0]}}</h1>
+      <h1 class="price_fav">Last Price View: {{infoG[i][2]}}€</h1>
+      <a class="link_fav" href="{{ infoG[i][3]}}" target="_blank">Last Best website seller</a>
+      <form method="POST" action="/favorites">
+         <input type="hidden" name="game_del" value="{{infoG[i][0]}}">
+         <input class="remove_fav" type="submit" value="Remove from favorites list">
+      </form>
+   </div>
 {%endfor%}
+</div>
 
 {% endblock %}

@@ -1,19 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Welcome to a comparator {% endblock %}</h1>
-    <form method="POST" action="/search">
+    <h1 class="answer_srch">{{ answer }}</h1>
+    <div class="boxtop">
+    <h2 class="results" >Results for: {{ game }}</h2>
+    <form class="btn_form" method="POST" action="/search">
         <input type="hidden" name="like_btn" value="like">
-        <input type="submit" value="{{ heart }}">
+        <input class="btn_like" type="submit" value="{{ heart }}">
     </form>
-    <h2>Results for: {{ game }}</h2>
-    <h1>{{ answer }}</h1>
-    <img src="{{ imggame }}">
-    <h2>{{ plat1 }}: {{ price1 }}€</h2>
-    <a href="{{ url1 }}">GO</a>
-    <h2>{{ plat2 }}: {{ price2 }}€</h2>
-    <a href="{{ url2 }}">GO</a>
-    <h2>{{ plat3 }}: {{ price3 }}€</h2>
-    <a href="{{ url3 }}">GO</a>
-    
+</div>
+    <img class="imgsrch" src="{{ imggame }}">
+    <div class="mbox">
+        <h2 class="res">{{ plat1 }}: {{ price1 }}€</h2>
+        <a class="resurl" href="{{ url1 }}">Go to website</a>
+    </div>
+    <div class="mbox">
+    <h2 class="res">{{ plat2 }}: {{ price2 }}€</h2>
+    <a class="resurl" href="{{ url2 }}">Go to website</a>
+    </div>
+    <div  class="mbox">
+    <h2 class="res">{{ plat3 }}: {{ price3 }}€</h2>
+    <a class="resurl" href="{{ url3 }}">Go to website</a>
+    </div>
 {% endblock %}

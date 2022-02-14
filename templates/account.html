@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Your Account {% endblock %}</h1>
-    <form method="post">
-        <input type="text" name="username" placeholder="Username" required autocomplete="off">
-        <input type="password" name="passwd" placeholder="Password" required autocomplete="off">
-        Create Account ? <input type="checkbox" name="create" >
-        <input type="submit" value="account">
+<div class="boxacc">
+    <h1 class="youracc">{% block title %} Connexion {% endblock %}</h1>
+    <form method="post" class="connexion">
+        <div class="checkb">
+            <h2 class="createacc">Create Account ?</h2><input type="checkbox" name="create" >
+        </div>
+        <input class="textinp" type="text" name="username" placeholder="Username" required autocomplete="off">
+        <input class="textinp" type="password" name="passwd" placeholder="Password" required autocomplete="off">
+        <input class="btn_acc" type="submit" value="Log in/Register">
     </form>
-    {{ answer }}
+    <h1 class="answer_acc">{{ answer }}</h1>
+</div>
 {% endblock %}

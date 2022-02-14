@@ -152,7 +152,7 @@ def account_page():
 		usrname = request.form['username']
 		passwd = request.form['passwd']
 		try:
-			create_account = request.form['create']
+			create_account = request.form['Log in/Register']
 		except:
 			pass
 		db = mysql.connector.connect(
@@ -189,7 +189,7 @@ def account_page():
 			cursor.execute(verifacc_SQL, usr_pswd)
 			row = cursor.fetchall()
 			if (cursor.rowcount != 1):
-				answer = "Username or Account incorrect. Please Retry!"
+				answer = "Username or Password incorrect. Please Retry!"
 			else:
 				print("row",row[0][0])
 				answer = "Successfully login!"
