@@ -30,7 +30,7 @@ $ pip install flask
 $ sudo python3 -m pip install mysql-connector-python
 $ git clone https://gitlab.com/Hbourmaud/projetcomparateur
 ```
-Cela permet d'obtenir le code utilisé pour les pages web ainsi que le backend du site. ( Veillez à changer les clés API disponible sur rapidapi.com)
+Cela permet d'obtenir le code utilisé pour les pages web ainsi que le backend du site. ( Veillez à changer les clés API disponible sur rapidapi.com ainsi que les identifiants pour se connecter à la base de donnée)
 
 ```bash
 $ sudo ufw allow 5000
