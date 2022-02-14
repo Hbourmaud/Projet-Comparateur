@@ -28,7 +28,7 @@ while getopts ":h" option; do
 done
 
 name=comparator_db_$(date +"%y%m%d_%H%M%S").tar.gz
-mysqldump -h [YOURDATABASEIP] -p -u [userdatabase] [passwddatabase] > ${save_file}tempdb.sql
+mysqldump -h [your_database_ip] -p -u [user_database] [name_database] > ${save_file}tempdb.sql
 tar -czvf ${name} ${save_file}tempdb.sql &> /dev/null
 rm ${save_file}tempdb.sql
 mv ${name} ${save_file}
