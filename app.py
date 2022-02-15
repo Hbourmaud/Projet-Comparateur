@@ -152,7 +152,7 @@ def account_page():
 		usrname = request.form['username']
 		passwd = request.form['passwd']
 		try:
-			create_account = request.form['Log in/Register']
+			create_account = request.form['create']
 		except:
 			pass
 		db = mysql.connector.connect(

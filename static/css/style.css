@@ -127,7 +127,7 @@ body{
 }
 
 .answer_ind {
-    color: white;
+    color: white!important;
     font-style: italic;
     font-size: x-large;
 }
@@ -256,7 +256,7 @@ IMG.imgsrch{
 }
 
 .answer_srch{
-    color: white;
+    color: white!important;
     font-style: italic;
     font-size: x-large;
 }
