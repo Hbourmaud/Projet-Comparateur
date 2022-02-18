@@ -72,3 +72,9 @@ WantedBy=timers.target
 Pour la backup d'autres fichiers nous avons décider de sauvegarder en plus, ponctuellement les fichiers suivants:
 - Code du site web (dispo sur git, app.py, templates/, static/)
 - Les différents services, confs ( myprojet.service, backup_db.service, backup_db.timer)
+
+Etapes pour restaurer la base de donnée d'après une sauvegarde effectuée par le script de backup:
+```bash=
+$ sudo tar -xvf /srv/backup/server_db_[Time_Stamp_Voulu].tar.gz
+$ mysql -u [username] -p [password] comparator < /srv/backup/tempdb.sql
+```
